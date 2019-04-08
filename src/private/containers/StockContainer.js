@@ -23,11 +23,14 @@ class StockContainer extends Component{
     getAllItems(){
         this.props._fetchItems();
         fetch('http://localhost:3002/getAllItems', {
-            method: "GET",
+            method: "POST",
             headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
             },
+            body:JSON.stringify({
+                active: true
+            }),
             credentials: 'include',
         })
         .then(response => response.json())

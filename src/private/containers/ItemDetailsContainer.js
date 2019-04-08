@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {withRouter} from 'react-router-dom'
 import {connect} from 'react-redux';
 import { fetchItem, fetchItemDone } from '../actions/item';
 
@@ -17,6 +18,8 @@ const mapDispatchToProps = dispatch =>({
 class ItemDetailsContainer extends Component{
     constructor(){
         super();
+        this.handleDelete = this.handleDelete.bind(this);
+        this.handleEdit = this.handleEdit.bind(this);
     }
     componentDidMount(){
         this.fetchItem(this.props.idItem);
@@ -41,6 +44,28 @@ class ItemDetailsContainer extends Component{
             }
         });
     }
+    handleEdit(){
+        console.log('editou');
+    }
+    handleDelete(){
+        fetch('http://localhost:3002/deleteItem', {
+            method: "POST",
+            body:JSON.stringify({
+                id: this.props.idItem
+            }),
+            headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+            },
+            credentials: 'include',
+        })
+        .then(response => response.json())
+        .then(result =>{
+            if(!result.err){
+               this.props.history.push('/stock') 
+            }
+        });
+    }
     render(){
         const {name, description, image_url, in_stock} = this.props.item;
         return(
@@ -49,9 +74,11 @@ class ItemDetailsContainer extends Component{
                 description = {description}
                 image_url = {image_url}
                 in_stock = {in_stock}
+                handleEdit = {this.handleEdit}
+                handleDelete = {this.handleDelete}
             />
         )
     }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ItemDetailsContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ItemDetailsContainer));
