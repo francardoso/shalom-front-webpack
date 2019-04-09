@@ -1,6 +1,7 @@
 import React,{Component} from 'react';
 
 import AddItemForm from '../presentational/AddItemForm';
+const API_URL = window.location.hostname === 'localhost' ? 'http://localhost:3002/' : 'https://shalom-back.herokuapp.com/';
 
 class AddItemContainer extends Component{
     constructor(){
@@ -8,7 +9,7 @@ class AddItemContainer extends Component{
         this.handleSubmit = this.handleSubmit.bind(this);
     }
     handleSubmit(product){
-        fetch('http://localhost:3002/addItem', {
+        fetch(`${API_URL}addItem`, {
             method: "POST",
             headers: {
             'Accept': 'application/json',

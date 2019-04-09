@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import {fetchItems, fetchItemsDone} from '../actions/items';
 
 import ItemCard from '../presentational/ItemCard';
+const API_URL = window.location.hostname === 'localhost' ? 'http://localhost:3002/' : 'https://shalom-back.herokuapp.com/';
 
 const mapStateToProps = state =>({
     items: state.itemsReducer.items,
@@ -22,7 +23,7 @@ class StockContainer extends Component{
     }
     getAllItems(){
         this.props._fetchItems();
-        fetch('http://localhost:3002/getAllItems', {
+        fetch(`${API_URL}getAllItems`, {
             method: "POST",
             headers: {
             'Accept': 'application/json',

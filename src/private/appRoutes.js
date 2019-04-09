@@ -9,8 +9,7 @@ import Stock from './views/Stock';
 import NoMatch from './views/NoMatch';
 import AddItem from './views/AddItem';
 import ItemDetails from './views/ItemDetails';
-
-
+const API_URL = window.location.hostname === 'localhost' ? 'http://localhost:3002/' : 'https://shalom-back.herokuapp.com/';
 
 const mapDispatchToProps = dispatch =>({
     _setIsLogged: (loginData) => dispatch(setIsLogged(loginData))  
@@ -25,7 +24,7 @@ class AppRoutes extends Component{
         this.checkLogged();
     }
     checkLogged(){
-        fetch('http://localhost:3002/isLogged', {
+        fetch(`${API_URL}isLogged`, {
             method: "GET",
             headers: {
                 'Accept': 'application/json',

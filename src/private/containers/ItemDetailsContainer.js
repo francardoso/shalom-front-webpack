@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import { fetchItem, fetchItemDone, updateItem } from '../actions/item';
 
 import ItemDetails from '../presentational/ItemDetails'
+const API_URL = window.location.hostname === 'localhost' ? 'http://localhost:3002/' : 'https://shalom-back.herokuapp.com/';
 
 const mapStateToProps = state => ({
     item: state.itemReducer.item,
@@ -27,7 +28,7 @@ class ItemDetailsContainer extends Component{
     }
     fetchItem(idItem){
         this.props._fetchItem();
-        fetch('http://localhost:3002/getItem', {
+        fetch(`${API_URL}getItem`, {
             method: "POST",
             body:JSON.stringify({
                 id: idItem
@@ -47,7 +48,7 @@ class ItemDetailsContainer extends Component{
     }
     handleEdit(item){
         item.id = this.props.idItem;
-        fetch('http://localhost:3002/editItem', {
+        fetch(`${API_URL}editItem`, {
             method: "PUT",
             body:JSON.stringify(item),
             headers: {
@@ -64,7 +65,7 @@ class ItemDetailsContainer extends Component{
         });
     }
     handleDelete(){
-        fetch('http://localhost:3002/deleteItem', {
+        fetch(`${API_URL}deleteItem`, {
             method: "POST",
             body:JSON.stringify({
                 id: this.props.idItem

@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {setIsLogged} from '../actions/login';
 
 import Login from '../presentational/Login';
+const API_URL = window.location.hostname === 'localhost' ? 'http://localhost:3002/' : 'https://shalom-back.herokuapp.com/';
 
 const mapStateToProps = state =>({
     isLogged: state.loginReducer.isLogged
@@ -21,7 +22,7 @@ class LoginContainer extends Component{
         this.loginAttempt = this.loginAttempt.bind(this);
     }
     loginAttempt(creds){
-        fetch('http://localhost:3002/login', {
+        fetch(`${API_URL}login`, {
             method: "POST",
             headers: {
             'Accept': 'application/json',
