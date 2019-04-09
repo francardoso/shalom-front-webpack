@@ -1,6 +1,7 @@
 import {
     FETCH_ITEM,
-    FETCH_ITEM_DONE
+    FETCH_ITEM_DONE,
+    UPDATE_ITEM
 } from '../actions/item';
 
 const initialState = {
@@ -19,6 +20,11 @@ const itemReducer = (state = initialState, action) =>{
             return {
                 ...state,
                 loading: false,
+                item: action.payload
+            }
+        case UPDATE_ITEM:
+            return {
+                ...state,
                 item: action.payload
             }
         default:

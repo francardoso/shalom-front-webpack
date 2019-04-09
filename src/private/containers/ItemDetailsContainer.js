@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {withRouter} from 'react-router-dom'
 import {connect} from 'react-redux';
-import { fetchItem, fetchItemDone } from '../actions/item';
+import { fetchItem, fetchItemDone, updateItem } from '../actions/item';
 
 import ItemDetails from '../presentational/ItemDetails'
 
@@ -12,7 +12,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch =>({
     _fetchItem: ()=>dispatch(fetchItem()),
-    _fetchItemDone: (item)=>dispatch(fetchItemDone(item))
+    _fetchItemDone: (item)=>dispatch(fetchItemDone(item)),
+    _updateItem: (item) => dispatch(updateItem(item))
 });
 
 class ItemDetailsContainer extends Component{
@@ -44,8 +45,23 @@ class ItemDetailsContainer extends Component{
             }
         });
     }
-    handleEdit(){
-        console.log('editou');
+    handleEdit(item){
+        item.id = this.props.idItem;
+        fetch('http://localhost:3002/editItem', {
+            method: "PUT",
+            body:JSON.stringify(item),
+            headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+            },
+            credentials: 'include',
+        })
+        .then(response => response.json())
+        .then(result =>{
+            if(!result.err){
+                this.props._updateItem(item);
+            }
+        });
     }
     handleDelete(){
         fetch('http://localhost:3002/deleteItem', {
@@ -69,14 +85,21 @@ class ItemDetailsContainer extends Component{
     render(){
         const {name, description, image_url, in_stock} = this.props.item;
         return(
-            <ItemDetails
-                name={name}
-                description = {description}
-                image_url = {image_url}
-                in_stock = {in_stock}
-                handleEdit = {this.handleEdit}
-                handleDelete = {this.handleDelete}
-            />
+            <React.Fragment>
+                {
+                    this.props.loading ? 
+                    <div>...loading</div>
+                    :
+                    <ItemDetails
+                        name={name}
+                        description = {description}
+                        image_url = {image_url}
+                        in_stock = {in_stock}
+                        handleEdit = {this.handleEdit}
+                        handleDelete = {this.handleDelete}
+                    />
+                }
+            </React.Fragment>
         )
     }
 };

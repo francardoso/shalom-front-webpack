@@ -1,5 +1,6 @@
 export const FETCH_ITEM = "FETCH_ITEM";
 export const FETCH_ITEM_DONE = "FETCH_ITEM_DONE";
+export const UPDATE_ITEM = "UPDATE_ITEM";
 
 export function fetchItem(){
     return{
@@ -13,3 +14,10 @@ export function fetchItemDone(item){
         payload: item
     }
 };
+
+export function updateItem(item){
+    return {
+        type: UPDATE_ITEM,
+        payload: item
+    }
+}
