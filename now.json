@@ -1,0 +1,9 @@
+{
+  "version":2,
+  "alias":["shalom"],
+  "routes":[
+    {"src":"^/src/(.*)", "dest":"/src/$1"},
+    {"src":"^/build.js", "dest":"/build.js"},
+    {"src":"^/(.*)", "dest":"/index.html"}
+  ]
+}
